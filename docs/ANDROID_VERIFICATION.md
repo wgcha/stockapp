@@ -48,6 +48,17 @@
 [오늘 화면](screenshots/android-today.png) · [다크 모드](screenshots/android-dark.png) ·
 [알림](screenshots/android-alerts.png) · [320dp·큰 글자](screenshots/android-320-large.png)
 
+## GitHub의 새 환경에서 재검증
+
+[자동 검사 실행 37803952966](https://github.com/wgcha/stockapp/actions/runs/37803952966)이 성공했다.
+검증한 실행 코드 커밋은 `9c64f133f32a6963e0db922004cbe07e56945e15`다.
+Ubuntu에서 Python 348개가 skip 없이 모두 통과했고, Android 단위 검사·lint·APK 빌드와 업로드도
+성공했다. 이후 커밋은 APK 다운로드 및 이 검증 결과를 적은 문서 변경뿐이다.
+
+[GitHub APK 다운로드](https://github.com/wgcha/stockapp/actions/runs/37803952966/artifacts/11562415768)
+아티팩트의 이름은 `stock-guide-debug-apk`, ZIP 크기는 18,008,736바이트다.
+최초 원격 실행에서 제거된 SDK `tools` 패키지를 설치하려던 설정 오류를 수정한 뒤 재검증했다.
+
 ## 검증하지 않은 외부 조건
 
 - 개인 실물 휴대폰의 제조사별 절전 정책과 예정 시간의 알림 전달
