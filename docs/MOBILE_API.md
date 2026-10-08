@@ -51,13 +51,19 @@ JSON은 UTF-8이며 오류 응답은 `{ "error": { "code": "...", "message": "�
   "confidence": 0.0,
   "text": "실제 가이드 포맷의 한국어 응답",
   "current_price": null,
+  "price_as_of": null,
   "generated_at": "2026-10-08T00:10:00+00:00",
   "market_status": "unconfigured",
   "is_demo": false
 }
 ```
 
-자료가 없으면 `current_price`는 null이고 판단은 보류한다. 가격·손익을 예시 숫자로 채우지 않는다.
+자료가 없으면 `current_price`와 `price_as_of`는 null이고 판단은 보류한다. 가격·손익을 예시 숫자로 채우지 않는다.
+`generated_at`은 응답 생성 시각이며 가격 기준 시각이 아니다. 가격이 있으면 `price_as_of`에
+검증된 가격 기준 시각을 ISO 형식으로 함께 반환한다. 기존 입력 생성기의 신선도 검사를 적용하며
+기준 시각이 없거나 자료가 오래되었으면 가격을 표시하지 않고 판단을 보류한다.
+현재 내부 시장 근거는 나이를 초 단위 정수로 제공하므로 `price_as_of`는 그 나이에서 재구성한
+초 단위 근사 시각이다. 공급자의 원본 시각 정밀도와 같다고 간주하지 않는다.
 인증정보가 있는 서버는 기존 Toss 입력 생성기와 전략 승인 상태를 사용한다. 공급자 실패는 고정 오류와
 자료 부족 상태로 표시한다. 내부 오류나 공급자 응답 원문·비밀값을 반환하지 않는다.
 
@@ -65,7 +71,9 @@ JSON은 UTF-8이며 오류 응답은 `{ "error": { "code": "...", "message": "�
 
 `python -m stock_guide_agent.mobile_api --env-file .env.mobile --host 127.0.0.1 --port 8765 --data-dir data/mobile`
 형태의 독립 진입점을 제공한다. `--demo`는 별도 디렉터리에서 예시 자료를 사용하며 일반 모드에
-예시를 자동 주입하지 않는다. Telegram 인증정보와 폴링을 요구하지 않는다.
+예시를 자동 주입하지 않는다. 기본 경로는 일반 모드 `data/mobile`, 데모 모드 `data/mobile-demo`이며,
+`--demo --data-dir data/mobile-demo`처럼 별도 경로를 지정할 수도 있다. Telegram 인증정보와 폴링을
+요구하지 않는다.
 
 Android는 최초 데모 모드에서 로컬 자료를 사용한다. 서버 연결 후 자료는 API에서만 읽고 저장한다.
 서버 오류가 나도 성공으로 표시하거나 데모 자료로 조용히 바꾸지 않는다. 서버 모드와 데모 모드는
